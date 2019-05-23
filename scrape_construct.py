@@ -50,6 +50,7 @@ def scrape_all_urls():
         all_urls.extend(scrape_single(page_url))
     return all_urls
 
+
 def add_bitbucket(all_urls):
     return [bitbucket + url for url in all_urls]
 
@@ -58,13 +59,6 @@ def dump_json(obj, fname):
     with open(fname, 'w') as f:
         json.dump(obj, f)
 
-
-def main():
-    all_urls = add_bitbucket(scrape_all_urls())
-    print(all_urls)
-    print("Total repos found: {}".format(len(all_urls)))
-    dump_json(all_urls, "all_public_sim_repos.json")
-    # clone_repos(all_urls)
 
 def clone_repos(all_urls):
     old_cwd = os.getcwd()
@@ -75,6 +69,15 @@ def clone_repos(all_urls):
         p = subprocess.Popen(["git", "clone", sim_env])
         p.communicate()
     os.chdir(old_cwd)
+
+
+def main():
+    all_urls = add_bitbucket(scrape_all_urls())
+    print(all_urls)
+    print("Total repos found: {}".format(len(all_urls)))
+    dump_json(all_urls, "all_public_sim_repos.json")
+    # clone_repos(all_urls)
+
 
 if __name__ == "__main__":
     main()
